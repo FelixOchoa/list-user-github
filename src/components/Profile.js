@@ -18,7 +18,7 @@ const Profile = () => {
     }
   }, [selectedUser, userContext]);
 
-  if (!loading && selectedUser && repos) {
+  if (!loading && selectedUser) {
     return (
       <>
         <Loading />
