@@ -16,7 +16,7 @@ const Profile = () => {
     if (selectedUser) {
       userContext.getRepos(selectedUser.login);
     }
-  }, [selectedUser, userContext]);
+  }, [selectedUser]);
 
   if (!loading && selectedUser) {
     return (
