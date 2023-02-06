@@ -1,38 +1,42 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import UserList from "./UserList";
 import SearchUser from "./SearchUser";
-import { getUsersFromApi } from "../service/Services";
 import Profile from "./Profile";
+import UserContext from "../context/User/UserContext";
 
 const ListUsers = () => {
-  const [users, setUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const userContext = useContext(UserContext);
 
   const sendUser = (user) => {
     if (user) {
-      const fetchUsers = async () => {
-        const res = await getUsersFromApi(user);
-        if (res) {
-          setUsers(res.items);
-        } else {
-          setUsers(false);
-          setSelectedUser(null);
-        }
-      };
-      fetchUsers();
+      userContext.getUsers(user);
     } else {
-      setUsers([]);
-      setSelectedUser(null);
+      userContext.getUsers(false);
+      userContext.setSelectedUser(null);
     }
   };
+
   return (
     <div className="min-h-screen bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400bg-zinc-300 flex flex-col items-center justify-center">
-      <div className="flex flex-col w-[1000px] min-h-[500px] bg-white rounded-xl shadow-md">
+      <div className="flex flex-col w-[1000px] min-h-[500px] bg-white rounded-xl shadow-md max-lg:w-[800px] max-md:w-full max-md:h-auto">
         <SearchUser sendUser={sendUser} />
         <div className="flex flex-row">
-          <UserList users={users} setSelectedUser={setSelectedUser} />
-          <Profile selectedUser={selectedUser} users={users} />
+          <UserList />
+          <Profile />
         </div>
+      </div>
+      <div>
+        <p className="mt-4 text-center text-gray-500 text-xs">
+          © 2023 - Creado por ❤️:
+          <a
+            className="text-blue-500 hover:text-blue-700 font-bold"
+            href="https://github.com/FelixOchoa"
+            target="_blank"
+            rel="noreferrer"
+          >
+            @FelixOchoa
+          </a>
+        </p>
       </div>
     </div>
   );
